@@ -18,6 +18,8 @@ function Transacoes() {
             <button onClick={() => console.log(transacao)}>
                 Adicionar
             </button>
+
+            <p>{transacao}</p>
         </>
     )
 }
