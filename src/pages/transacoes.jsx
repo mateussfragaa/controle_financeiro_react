@@ -7,19 +7,27 @@ function Transacoes() {
     return (
         <>
             <h1>Transações</h1>
-            <p>Receitas e despesas.</p>
+            <p>Cadastre uma nova transação financeira.</p>
 
-            <input
-                type="text"
-                value={transacao}
-                onChange={(e) => setTransacao(e.target.value)}
-            />
+            <div className="formulario">
+                <input
+                    type="text"
+                    value={transacao}
+                    onChange={(e) => setTransacao(e.target.value)}
+                    placeholder="Digite uma transação"
+                />
 
-            <button onClick={() => console.log(transacao)}>
-                Adicionar
-            </button>
+                <button onClick={() => console.log(transacao)}>
+                    Adicionar
+                </button>
+            </div>
 
-            <p>{transacao}</p>
+            {transacao && (
+                <div className="transacao">
+                    <strong>Última transação:</strong>
+                    <p>{transacao}</p>
+                </div>
+            )}
         </>
     )
 }
