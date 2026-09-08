@@ -3,6 +3,9 @@ import { useState } from 'react'
 function Transacoes() {
 
     const [transacao, setTransacao] = useState("")
+    const [valor, setValor] = useState("")
+    const [tipo, setTipo] = useState("Receita")
+    const [transacoes, setTransacoes] = useState([])
 
     return (
         <>
@@ -17,7 +20,35 @@ function Transacoes() {
                     placeholder="Digite uma transação"
                 />
 
-                <button onClick={() => console.log(transacao)}>
+                <input
+                    type="text"
+                    value={valor}
+                    onChange={(e) => setValor(e.target.value)}
+                    placeholder="Digite o valor"
+                />
+
+                <select
+                    value={tipo}
+                    onChange={(e) => setTipo(e.target.value)}
+                >
+                    <option value="Receita">Receita</option>
+                    <option value="Despesa">Despesa</option>
+                </select>
+
+                <button onClick={() => {
+                    setTransacoes([
+                        ...transacoes,
+                        {
+                            transacao: transacao,
+                            valor: valor,
+                            tipo: tipo
+                        }
+                    ])
+
+                    setTransacao("");
+                    setValor("");
+                }}
+                >
                     Adicionar
                 </button>
             </div>
@@ -28,6 +59,14 @@ function Transacoes() {
                     <p>{transacao}</p>
                 </div>
             )}
+
+            {transacoes.map((item) => (
+                <div >
+                    <p>Entrada {item.transacao}</p>
+                    <p>Valor R${item.valor}</p>
+                    <p>Tipo {item.tipo}</p>
+                </div>
+            ))} 
         </>
     )
 }
