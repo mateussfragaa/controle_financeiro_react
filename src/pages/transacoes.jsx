@@ -44,6 +44,7 @@ function Transacoes() {
                             tipo: tipo
                         }
                     ])
+                    console.log(transacao, valor, tipo)
 
                     setTransacao("");
                     setValor("");
@@ -60,12 +61,24 @@ function Transacoes() {
                 </div>
             )}
 
-            {transacoes.map((item) => (
-                <div >
-                    <p>Entrada {item.transacao}</p>
-                    <p>Valor R${item.valor}</p>
-                    <p>Tipo {item.tipo}</p>
+            
+
+            {transacoes.map((item, index) => (
+                
+                <div key={index} className={item.tipo == "Despesa" ? "lista_despesa lista_transacoes"  : "lista_receita lista_transacoes"}>
+                    <div>
+                    <p>{item.transacao}</p>
+                    <p><span>Valor: </span>R${item.valor}</p>
+                    <p><span>Tipo: </span>{item.tipo}</p>
+                    </div>
+                    <div className="botao_excluir_transacao">
+                        <button>Excluir</button>
+                    </div>
+                    
+                    
                 </div>
+                
+                
             ))} 
         </>
     )
