@@ -1,3 +1,5 @@
+import Transacoes from "./transacoes"
+
 function Home() {
     return (
         <>

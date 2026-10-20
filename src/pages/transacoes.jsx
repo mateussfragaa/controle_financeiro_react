@@ -1,11 +1,68 @@
 import { useState } from 'react'
+import { useLocalStorage } from "../useLocalStorage.js";
 
 function Transacoes() {
 
     const [transacao, setTransacao] = useState("")
     const [valor, setValor] = useState("")
     const [tipo, setTipo] = useState("Receita")
-    const [transacoes, setTransacoes] = useState([])
+    const [transacoes, setTransacoes] = useLocalStorage("transacoes", [])
+    const [editando, setEditando] = useState(null)
+
+    function excluirTransacao(index) {
+        const novaLista = transacoes.filter((item, i) => i !== index);
+        setTransacoes(novaLista);
+
+        if (editando === index) {
+            setEditando(null);
+            limparCampos();
+        } else if (editando !== null && editando > index) {
+            setEditando(editando - 1);
+        }
+    }
+
+    function editarTransacao(index) {
+        setTransacao(transacoes[index].transacao);
+        setValor(transacoes[index].valor);
+        setTipo(transacoes[index].tipo);
+        setEditando(index);
+    }
+
+    function salvarTransacao() {
+        if (transacao.trim() === "" || valor.trim() === "") {
+            alert("Preencha a descrição e o valor!");
+            return;
+        }
+
+        if (editando === null) {
+            setTransacoes([
+                ...transacoes,
+                {
+                    transacao: transacao,
+                    valor: valor,
+                    tipo: tipo
+                }
+            ]);
+        } else {
+            const novaLista = [...transacoes];
+
+            novaLista[editando] = {
+                transacao: transacao,
+                valor: valor,
+                tipo: tipo
+            };
+
+            setTransacoes(novaLista);
+            setEditando(null);
+        }
+        limparCampos();
+    }
+
+    function limparCampos(){
+        setTransacao("");
+        setValor("");
+        setTipo("Receita");
+    }
 
     return (
         <>
@@ -35,21 +92,8 @@ function Transacoes() {
                     <option value="Despesa">Despesa</option>
                 </select>
 
-                <button onClick={() => {
-                    setTransacoes([
-                        ...transacoes,
-                        {
-                            transacao: transacao,
-                            valor: valor,
-                            tipo: tipo
-                        }
-                    ])
-
-                    setTransacao("");
-                    setValor("");
-                }}
-                >
-                    Adicionar
+                <button onClick={salvarTransacao}>
+                    {editando === null ? "Adicionar" : "Salvar alterações"}
                 </button>
             </div>
 
@@ -60,12 +104,25 @@ function Transacoes() {
                 </div>
             )}
 
-            {transacoes.map((item) => (
-                <div >
-                    <p>Entrada {item.transacao}</p>
-                    <p>Valor R${item.valor}</p>
-                    <p>Tipo {item.tipo}</p>
+            
+
+            {transacoes.map((item, index) => (
+                
+                <div key={index} className={item.tipo === "Despesa" ? "lista_despesa lista_transacoes"  : "lista_receita lista_transacoes"}>
+                    <div>
+                    <p>{item.transacao}</p>
+                    <p><span>Valor: </span>R${item.valor}</p>
+                    <p><span>Tipo: </span>{item.tipo}</p>
+                    </div>
+                    <div className="botao_editar_excluir_transacao">
+                        <button className="botao_excluir_transacao" onClick={() => excluirTransacao(index)} >Excluir</button>
+                        <button className="botao_editar_transacao" onClick={() => editarTransacao(index)}>Editar</button>
+                    </div>
+                    
+                    
                 </div>
+                
+                
             ))} 
         </>
     )
