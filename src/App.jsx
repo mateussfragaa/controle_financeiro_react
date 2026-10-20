@@ -6,7 +6,8 @@ import './App.css'
 
 function App() {
 
-  const [content, setContent] = useState('home')
+  const [content, setContent] = useState('home');
+
 
   return (
     <>

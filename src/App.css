@@ -130,13 +130,20 @@ button {
   border-left: 5px solid green;
 }
 
-.botao_excluir_transacao {
+.botao_editar_excluir_transacao {
   padding: 0;
   margin: 0;
-
+}
+.botao_editar_excluir_transacao button {
+  border-radius: 10px;
+  width: 80%;
 }
 
-.botao_excluir_transacao button {
+
+.botao_excluir_transacao{
   background-color: rgb(247, 37, 37);
-  border-radius: 10px;
+}
+
+.botao_editar_transacao{
+  background-color: #59b2ff;
 }
